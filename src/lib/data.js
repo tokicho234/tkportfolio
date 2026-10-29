@@ -1,0 +1,243 @@
+let skillCount = 0;
+const s = (name, category, level) => ({
+  id: `skill-${++skillCount}`,
+  name,
+  category,
+  level,
+});
+
+export const CATEGORIES = ['software', 'cloud', 'network', 'support'];
+
+export const DEFAULT_DATA = {
+  heroMode: '3d',
+  photo: '',
+  skills: [
+    s('Python', 'software', 75), s('JavaScript', 'software', 78), s('PHP', 'software', 70),
+    s('Java', 'software', 65), s('C#', 'software', 60), s('C++', 'software', 60),
+    s('React', 'software', 72), s('Django / Flask', 'software', 65),
+    s('SQL, PostgreSQL, MongoDB', 'software', 80), s('Git, GitHub, GitLab', 'software', 80),
+    s('Agile, Scrum, DevOps', 'software', 70),
+    s('AWS (EC2)', 'cloud', 60), s('Microsoft Azure', 'cloud', 62), s('Google Cloud (GCP)', 'cloud', 58),
+    s('Office 365', 'cloud', 88), s('Heroku, App Engine', 'cloud', 55), s('Serverless, Kubernetes', 'cloud', 50),
+    s('Windows Server 2019 / 2022', 'network', 90), s('Active Directory (GPO, DNS, DHCP)', 'network', 90),
+    s('TCP/IP, DNS, DHCP, VPN, VLAN', 'network', 85), s('Cisco, Fortinet', 'network', 78),
+    s('VMware, Hyper-V, Docker', 'network', 75), s('Linux (Ubuntu, Kali)', 'network', 72),
+    s('Hardware and software troubleshooting', 'support', 95), s('OS installation', 'support', 95),
+    s('Remote support (TeamViewer, AnyDesk, RDP)', 'support', 92),
+    s('PowerShell, Bash, ping, ipconfig, tracert', 'support', 85),
+    s('Boot media and diagnostic tools', 'support', 85),
+  ],
+  projects: [
+    {
+      id: 'midas',
+      title: 'Passport Control System (MIDAS)',
+      desc: {
+        en: 'System Analyst on the Migration Information and Data Analysis System for Bole International Airport and other border points: requirements, specifications for developers, testing, end-user training and ongoing support.',
+        am: 'ለቦሌ ዓለም አቀፍ አየር ማረፊያና ለሌሎች ድንበሮች የፓስፖርት ቁጥጥር ሲስተም (MIDAS) የሲስተም ተንታኝ፦ ፍላጎት ማሰባሰብ፣ ለገንቢዎች ቴክኒካል መግለጫ ማዘጋጀት፣ ሙከራ፣ ተጠቃሚዎችን ማሰልጠንና ቀጣይ ድጋፍ።',
+      },
+      tags: 'Systems analysis, Border management, Training',
+    },
+    {
+      id: 'pisces',
+      title: 'PISCES Border Management System',
+      desc: {
+        en: 'Trained and certified as PISCES Systems Administrator (version 9.3), supporting the reliability and security of the border management platform.',
+        am: 'የPISCES ስሪት 9.3 የድንበር አስተዳደር ሲስተም አስተዳዳሪ ሆኖ የሰለጠነና የተመሰከረለት፤ የሲስተሙን አስተማማኝነትና ደህንነት ይደግፋል።',
+      },
+      tags: 'Systems administration, Security',
+    },
+    {
+      id: 'dental',
+      title: 'Dental Clinic App',
+      desc: { en: 'Web application for managing a dental clinic.', am: 'የጥርስ ክሊኒክን ለማስተዳደር የሚያገለግል የድር መተግበሪያ።' },
+      tags: 'Web app',
+    },
+    {
+      id: 'restaurant',
+      title: 'Restaurant App',
+      desc: { en: 'Web application for restaurant operations.', am: 'ለምግብ ቤት አገልግሎት የሚውል የድር መተግበሪያ።' },
+      tags: 'Web app',
+    },
+  ],
+  certs: [
+    {
+      id: 'pisces',
+      title: 'PISCES Systems Administrator',
+      issuer: 'PISCES Training Program',
+      date: 'June 2023',
+      detail: {
+        en: 'Completed the Personal Identification Secure Comparison and Evaluation System (PISCES) version 9.3 Border Management System administrator course.',
+        am: 'የPISCES ስሪት 9.3 የድንበር አስተዳደር ሲስተም አስተዳዳሪ ኮርስን በስኬት አጠናቋል።',
+      },
+    },
+    {
+      id: 'iom',
+      title: 'Training of Trainers (ToT) on MIDAS',
+      issuer: 'IOM UN Migration',
+      date: 'December 2024',
+      detail: {
+        en: 'Participation certificate for the 2 to 6 December training of trainers on the Migration Information and Data Analysis System, held in Addis Ababa.',
+        am: 'በአዲስ አበባ የተካሄደውን የMIDAS የአሰልጣኞች ስልጠና (ከታኅሣሥ 2 እስከ 6) የተሳትፎ ሰርተፊኬት።',
+      },
+    },
+    {
+      id: 'sql',
+      title: 'Administering Microsoft SQL Server 2022 (55316A)',
+      issuer: 'Microsoft Learning Solutions, ITSC',
+      date: 'April 2024',
+      detail: {
+        en: 'Certificate of Achievement for an official Microsoft Learning Product course.',
+        am: 'ለይፋዊ የማይክሮሶፍት የትምህርት ኮርስ የተሰጠ የስኬት ሰርተፊኬት።',
+      },
+    },
+    {
+      id: 'winserver',
+      title: 'Microsoft Windows Server 2019 Administration (WS-011T00)',
+      issuer: 'Microsoft Learning Solutions, ITSC',
+      date: 'April 2024',
+      detail: {
+        en: 'Certificate of Achievement for an official Microsoft Learning Product course.',
+        am: 'ለይፋዊ የማይክሮሶፍት የትምህርት ኮርስ የተሰጠ የስኬት ሰርተፊኬት።',
+      },
+    },
+    {
+      id: 'comptia',
+      title: 'Computer Hardware and Software Maintenance',
+      issuer: 'AppTech IT Solutions, CompTIA',
+      date: 'June 2021',
+      detail: {
+        en: 'Certificate of Completion from the AppTech Learning Center, Addis Ababa.',
+        am: 'ከአዲስ አበባ አፕቴክ የመማሪያ ማዕከል የተሰጠ የኮርስ ማጠናቀቂያ ሰርተፊኬት።',
+      },
+    },
+  ],
+};
+
+export const EXPERIENCE = [
+  {
+    id: 'ics',
+    org: { en: 'Immigration and Citizenship Service (ICS)', am: 'የኢሚግሬሽንና ዜግነት አገልግሎት (ICS)' },
+    role: { en: 'IT Operational Support and System Analyst', am: 'የአይቲ ኦፕሬሽናል ድጋፍ ባለሙያና የሲስተም ተንታኝ' },
+    period: { en: 'Dec 2020 to present', am: 'ታኅሣሥ 2020 እስከ አሁን' },
+    points: {
+      en: [
+        'Install, configure and maintain operating systems, applications and network devices.',
+        'Manage servers, storage, firewalls, routers, switches and backup systems.',
+        'Resolve LAN/WAN, Wi-Fi and VPN problems; monitor network performance and security.',
+        'Administer user accounts and access control with Active Directory and Microsoft 365.',
+        'Keep IT documentation, inventory and asset records current; support branch offices on site and remotely.',
+      ],
+      am: [
+        'ኦፐሬቲንግ ሲስተሞችን፣ አፕሊኬሽኖችንና የኔትወርክ መሳሪያዎችን መትከል፣ ማዋቀርና መጠበቅ።',
+        'ሰርቨሮችን፣ ስቶሬጅን፣ ፋየርዎሎችን፣ ራውተሮችን፣ ስዊቾችንና የባክአፕ ሲስተሞችን ማስተዳደር።',
+        'የLAN/WAN፣ የWi-Fi እና የVPN ችግሮችን መፍታት፤ የኔትወርክ አፈጻጸምና ደህንነትን መከታተል።',
+        'የተጠቃሚ መለያዎችንና የመዳረሻ ፈቃዶችን በActive Directory እና Microsoft 365 ማስተዳደር።',
+        'የአይቲ ሰነዶችን፣ ኢንቬንቶሪና የንብረት መዝገቦችን ማዘመን፤ የቅርንጫፍ ቢሮዎችን በአካልና በርቀት መደገፍ።',
+      ],
+    },
+    project: {
+      title: { en: 'Passport Control System (MIDAS), System Analyst', am: 'የፓስፖርት ቁጥጥር ሲስተም (MIDAS)፣ የሲስተም ተንታኝ' },
+      points: {
+        en: [
+          'Worked with stakeholders to define requirements and objectives.',
+          'Analyzed existing systems and processes, and wrote technical specifications for developers.',
+          'Tested systems against requirements, trained end users, and provided ongoing support.',
+        ],
+        am: [
+          'ከባለድርሻ አካላት ጋር ፍላጎቶችንና ግቦችን ማብራራት።',
+          'ነባር ሲስተሞችንና የአሰራር ሂደቶችን መተንተን፤ ለገንቢዎች ቴክኒካል መግለጫ ማዘጋጀት።',
+          'ሲስተሞችን ከፍላጎቱ አንጻር መሞከር፣ ተጠቃሚዎችን ማሰልጠንና ቀጣይ ድጋፍ መስጠት።',
+        ],
+      },
+    },
+  },
+  {
+    id: 'finot',
+    org: { en: 'Finot-Selam City Administration', am: 'የፍኖተ ሰላም ከተማ አስተዳደር' },
+    role: { en: 'IT Support Professional', am: 'የአይቲ ድጋፍ ባለሙያ' },
+    period: { en: 'Nov 2019 to 2020', am: 'ኅዳር 2019 እስከ 2020' },
+    points: {
+      en: [
+        'Provided technical support for hardware and software issues.',
+        'Installed, configured and troubleshot computers and printers.',
+        'Fixed internet connectivity problems and repaired devices such as printers and scanners.',
+        'Reset passwords and resolved account access problems.',
+      ],
+      am: [
+        'የሃርድዌርና የሶፍትዌር ችግሮችን በመፍታት ቴክኒካል ድጋፍ መስጠት።',
+        'ኮምፒውተሮችንና ፕሪንተሮችን መትከል፣ ማዋቀርና ችግሮቻቸውን መፍታት።',
+        'የኢንተርኔት ግንኙነት ችግሮችን መፍታት፤ ፕሪንተርና ስካነር የመሳሰሉ መሳሪያዎችን መጠገን።',
+        'የይለፍ ቃል ማስጀመርና የመለያ መዳረሻ ችግሮችን መፍታት።',
+      ],
+    },
+  },
+];
+
+export const UI = {
+  en: {
+    nav: { about: 'About', experience: 'Experience', projects: 'Projects', skills: 'Skills', certificates: 'Certificates', contact: 'Contact' },
+    name: 'Teketay Addis Kebede',
+    greeting: "Hello, I'm",
+    title: 'IT Professional, Systems Analyst & Infrastructure Specialist',
+    role: 'IT Operational Support',
+    blurb: '6+ years keeping national border and migration systems secure, reliable and well documented, from the help desk to systems analysis.',
+    cvBtn: 'Download CV',
+    expBtn: 'Explore Experience',
+    adminBtn: 'Admin Portal',
+    viewPhoto: 'Photo',
+    view3d: '3D network',
+    aboutTitle: 'About me',
+    about: "I have 6+ years of experience in IT support, systems administration and systems analysis. At the Immigration and Citizenship Service (ICS) I support the infrastructure behind the Passport Control System (MIDAS) and train the people who use it. I like setting goals and reaching them, and I work as comfortably in a team as on my own.",
+    stats: { years: 'Years of experience', certs: 'Certificates', gpa: 'GPA, BSc IT' },
+    eduTitle: 'Education',
+    eduDegree: 'BSc in Information Technology',
+    eduSchool: 'University of Gondar, July 2019',
+    expTitle: 'Experience',
+    projTitle: 'Projects and systems',
+    skillsTitle: 'Skills',
+    skillsHint: 'Fill shows self-rated proficiency',
+    certTitle: 'Certificates',
+    contactTitle: 'Get in touch',
+    contactLead: 'Email me about a role, a project, or a systems problem.',
+    email: 'Email', phone: 'Phone', location: 'Location', locationValue: 'Addis Ababa, Ethiopia',
+    form: { name: 'Your name', email: 'Your email', message: 'Message', send: 'Send message', sending: 'Sending...', sent: 'Message sent. Thank you, I will reply by email.', error: 'Could not send your message. Try again, or email me directly.' },
+    cat: { software: 'Software development', cloud: 'Cloud computing', network: 'Network and systems administration', support: 'IT support and help desk' },
+    empty: 'Nothing here yet. Add items in the Admin Portal.',
+    footer: 'All rights reserved.',
+    toggleTheme: 'Toggle theme', toggleLang: 'Switch language', openMenu: 'Open menu', closeMenu: 'Close menu',
+    viewCert: 'View certificate', showDetails: 'Details', hideDetails: 'Hide details', close: 'Close', prev: 'Previous', next: 'Next',
+  },
+  am: {
+    nav: { about: 'ስለ እኔ', experience: 'ልምድ', projects: 'ፕሮጀክቶች', skills: 'ክህሎቶች', certificates: 'ሰርተፊኬቶች', contact: 'አግኙኝ' },
+    name: 'ተከታይ አዲስ ከበደ',
+    greeting: 'ሰላም፣ እኔ',
+    title: 'የአይቲ ባለሙያ፣ የሲስተም ተንታኝ እና የመሠረተ ልማት ስፔሻሊስት',
+    role: 'የኢንፎርሜሽን ቴክኖሎጂ ድጋፍ ባለሙያ',
+    blurb: 'ከ6 ዓመት በላይ የሀገር ድንበርና የፍልሰት ሲስተሞችን ከአይቲ ድጋፍ እስከ ሲስተም ትንተና ድረስ ደህንነታቸውንና አስተማማኝነታቸውን በመጠበቅ ያገለገለ።',
+    cvBtn: 'ሲቪ አውርድ',
+    expBtn: 'ልምዴን ይመልከቱ',
+    adminBtn: 'የአስተዳዳሪ መግቢያ',
+    viewPhoto: 'ፎቶ',
+    view3d: '3D ኔትወርክ',
+    aboutTitle: 'ስለ እኔ',
+    about: 'በአይቲ ድጋፍ፣ በሲስተም አስተዳደርና በሲስተም ትንተና ከ6 ዓመት በላይ ልምድ አለኝ። በኢሚግሬሽንና ዜግነት አገልግሎት (ICS) የፓስፖርት ቁጥጥር ሲስተም (MIDAS) መሠረተ ልማትን እደግፋለሁ፤ ተጠቃሚዎችንም አሰለጥናለሁ። ግቦችን አስቀምጬ ማሳካት እወዳለሁ፤ በቡድንም ሆነ በግሌ በተመሳሳይ ምቾት እሠራለሁ።',
+    stats: { years: 'የዓመታት ልምድ', certs: 'ሰርተፊኬቶች', gpa: 'ውጤት (GPA)፣ BSc IT' },
+    eduTitle: 'ትምህርት',
+    eduDegree: 'የመጀመሪያ ዲግሪ በኢንፎርሜሽን ቴክኖሎጂ',
+    eduSchool: 'ጎንደር ዩኒቨርሲቲ፣ ሐምሌ 2019',
+    expTitle: 'የሥራ ልምድ',
+    projTitle: 'ፕሮጀክቶችና ሲስተሞች',
+    skillsTitle: 'ክህሎቶች',
+    skillsHint: 'ሙላቱ የራስ ግምገማ የብቃት ደረጃን ያሳያል',
+    certTitle: 'ሰርተፊኬቶች',
+    contactTitle: 'ያግኙኝ',
+    contactLead: 'ስለ ሥራ ዕድል፣ ፕሮጀክት ወይም የሲስተም ችግር በኢሜይል ይጻፉልኝ።',
+    email: 'ኢሜይል', phone: 'ስልክ', location: 'አድራሻ', locationValue: 'አዲስ አበባ፣ ኢትዮጵያ',
+    form: { name: 'ስምዎ', email: 'ኢሜይልዎ', message: 'መልዕክት', send: 'መልዕክት ላክ', sending: 'በመላክ ላይ...', sent: 'መልዕክትዎ ተልኳል። አመሰግናለሁ፣ በኢሜይል እመልስልዎታለሁ።', error: 'መልዕክቱ አልተላከም። እባክዎ እንደገና ይሞክሩ ወይም በኢሜይል ይጻፉልኝ።' },
+    cat: { software: 'ሶፍትዌር ልማት', cloud: 'ክላውድ ኮምፒውቲንግ', network: 'ኔትወርክና ሲስተም አስተዳደር', support: 'የአይቲ ድጋፍና ሄልፕ ዴስክ' },
+    empty: 'እስካሁን ምንም የለም። በአስተዳዳሪ መግቢያ ያክሉ።',
+    footer: 'መብቱ በህግ የተጠበቀ ነው።',
+    toggleTheme: 'ገጽታ ቀይር', toggleLang: 'ቋንቋ ቀይር', openMenu: 'ምናሌ ክፈት', closeMenu: 'ምናሌ ዝጋ',
+    viewCert: 'ሰርተፊኬቱን ይመልከቱ', showDetails: 'ዝርዝር', hideDetails: 'ዝርዝር ደብቅ', close: 'ዝጋ', prev: 'ቀዳሚ', next: 'ቀጣይ',
+  },
+};
