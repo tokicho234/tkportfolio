@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
@@ -12,6 +12,26 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24 });
+
+  // Close the mobile menu with Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === 'Escape' && setOpen(false);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  // Scroll programmatically. Letting the browser follow the plain #link fails on phones because
+  // the menu unmounts during the tap, which cancels the navigation.
+  function goTo(e, id) {
+    e.preventDefault();
+    setOpen(false);
+    // Wait for the menu to start closing; a scroll begun during the tap's own layout change is dropped on mobile.
+    setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', `#${id}`);
+    }, 120);
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-obsidian-950/75">
@@ -77,7 +97,7 @@ export default function Navbar() {
           >
             {LINKS.map((k) => (
               <li key={k}>
-                <a href={`#${k}`} onClick={() => setOpen(false)} className="block py-3 text-slate-700 dark:text-slate-300">
+                <a href={`#${k}`} onClick={(e) => goTo(e, k)} className="block py-3 text-slate-700 dark:text-slate-300">
                   {t.nav[k]}
                 </a>
               </li>
