@@ -8,7 +8,7 @@ import { api } from '@/lib/api';
 import { usePortfolio } from '@/context/PortfolioContext';
 
 const EMAIL = 'teketay2024@gmail.com';
-const PHONE = '+251918991196';
+const PHONES = ['+251918991196', '+251912668180'];
 
 export default function Contact() {
   const { t } = usePortfolio();
@@ -29,9 +29,21 @@ export default function Contact() {
   }
 
   const info = [
-    [Mail, t.email, EMAIL, `mailto:${EMAIL}`],
-    [Phone, t.phone, PHONE, `tel:${PHONE}`],
-    [MapPin, t.location, t.locationValue, null],
+    { icon: Mail, label: t.email, content: <a href={`mailto:${EMAIL}`} className="break-all font-medium text-slate-900 hover:underline dark:text-white">{EMAIL}</a> },
+    { 
+      icon: Phone, 
+      label: t.phone, 
+      content: (
+        <div className="flex flex-col space-y-0.5">
+          {PHONES.map((phone) => (
+            <a key={phone} href={`tel:${phone}`} className="font-medium text-slate-900 hover:underline dark:text-white">
+              {phone}
+            </a>
+          ))}
+        </div>
+      ) 
+    },
+    { icon: MapPin, label: t.location, content: <p className="font-medium text-slate-900 dark:text-white">{t.locationValue}</p> },
   ];
 
   return (
@@ -40,18 +52,14 @@ export default function Contact() {
         <Reveal>
         <div className="card h-full space-y-5 transition duration-300 hover:shadow-glow">
           <p className="text-slate-600 dark:text-slate-400">{t.contactLead}</p>
-          {info.map(([Icon, label, value, href]) => (
-            <div key={label} className="flex items-center gap-4">
+          {info.map(({ icon: Icon, label, content }) => (
+            <div key={label} className="flex items-start gap-4">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky-100 text-sky-700 dark:bg-neon-cyan/10 dark:text-neon-cyan">
                 <Icon size={18} />
               </span>
               <div className="min-w-0">
                 <p className="text-xs text-slate-500">{label}</p>
-                {href ? (
-                  <a href={href} className="break-all font-medium text-slate-900 hover:underline dark:text-white">{value}</a>
-                ) : (
-                  <p className="font-medium text-slate-900 dark:text-white">{value}</p>
-                )}
+                {content}
               </div>
             </div>
           ))}
