@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
-import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Lock, Menu, Moon, Sun, X } from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
 
 const LINKS = ['about', 'experience', 'projects', 'skills', 'certificates', 'contact'];
 
 export default function Navbar() {
-  const { t, lang, toggleLang, theme, toggleTheme } = usePortfolio();
+  const { t, lang, toggleLang, theme, toggleTheme, setAdminOpen } = usePortfolio();
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24 });
@@ -68,6 +68,15 @@ export default function Navbar() {
             ))}
           </button>
           <button
+            onClick={() => setAdminOpen(true)}
+            aria-label={t.adminBtn}
+            title={t.adminBtn}
+            className="hidden h-9 items-center gap-2 rounded-full border border-slate-300 px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/5 sm:inline-flex"
+          >
+            <Lock size={15} />
+            <span className="hidden lg:inline">{t.adminBtn}</span>
+          </button>
+          <button
             onClick={toggleTheme}
             aria-label={t.toggleTheme}
             className="grid h-9 w-9 place-items-center rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/5"
@@ -102,6 +111,14 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
+            <li className="border-t border-slate-200 dark:border-white/10 sm:hidden">
+              <button
+                onClick={() => { setOpen(false); setAdminOpen(true); }}
+                className="flex w-full items-center gap-2 py-3 text-left text-slate-700 dark:text-slate-300"
+              >
+                <Lock size={15} /> {t.adminBtn}
+              </button>
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>

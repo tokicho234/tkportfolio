@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import { Box, Camera, Download, Lock, Server, ShieldCheck } from 'lucide-react';
+import { Box, Camera, Download, Server, ShieldCheck } from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
 
 const HeroScene = dynamic(() => import('./HeroScene'), {
@@ -11,7 +11,7 @@ const HeroScene = dynamic(() => import('./HeroScene'), {
 });
 
 export default function Hero() {
-  const { t, data, setHeroMode, setAdminOpen, theme } = usePortfolio();
+  const { t, data, setHeroMode, theme } = usePortfolio();
   const mode = data.heroMode;
 
   return (
@@ -29,13 +29,10 @@ export default function Hero() {
           <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-400">{t.blurb}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="/Teketay_Addis_CV.pdf" download className="btn btn-primary">
+            <a href={data.cvVersion ? `/api/cv?v=${data.cvVersion}` : '/Teketay_Addis_CV.pdf'} download className="btn btn-primary">
               <Download size={16} /> {t.cvBtn}
             </a>
             <a href="#experience" className="btn btn-ghost">{t.expBtn}</a>
-            <button onClick={() => setAdminOpen(true)} className="btn btn-ghost">
-              <Lock size={15} /> {t.adminBtn}
-            </button>
           </div>
         </motion.div>
 

@@ -11,6 +11,7 @@ export const CATEGORIES = ['software', 'cloud', 'network', 'support'];
 export const DEFAULT_DATA = {
   heroMode: '3d',
   photo: '',
+  cvVersion: 0,
   skills: [
     s('Python', 'software', 75), s('JavaScript', 'software', 78), s('PHP', 'software', 70),
     s('Java', 'software', 65), s('C#', 'software', 60), s('C++', 'software', 60),
@@ -220,7 +221,7 @@ export const UI = {
     viewPhoto: 'ፎቶ',
     view3d: '3D ኔትወርክ',
     aboutTitle: 'ስለ እኔ',
-    about: 'በአይቲ ድጋፍ፣ በሲስተም አስተዳደርና በሲስተም ትንተና ከ6 ዓመት በላይ ልምድ አለኝ። በኢሚግሬሽንና ዜግነት አገልግሎት (ICS) የፓስፖርት ቁጥጥር ሲስተም (MIDAS) መሠረተ ልማትን ድጋፍ እሰጣለሁ፤ ተጠቃሚዎችንም አሰለጥናለሁ። ግቦችን አስቀምጬ ማሳካት እወዳለሁ፤ በቡድንም ሆነ በግሌ በተመሳሳይ ምቾት እሠራለሁ።',
+    about: 'በአይቲ ድጋፍ፣ በሲስተም አስተዳደርና በሲስተም ትንተና ከ6 ዓመት በላይ ልምድ አለኝ። በኢሚግሬሽንና ዜግነት አገልግሎት (ICS) የፓስፖርት ቁጥጥር ሲስተም (MIDAS) መሠረተ ልማትን እደግፋለሁ፤ ተጠቃሚዎችንም አሰለጥናለሁ። ግቦችን አስቀምጬ ማሳካት እወዳለሁ፤ በቡድንም ሆነ በግሌ በተመሳሳይ ምቾት እሠራለሁ።',
     stats: { years: 'የዓመታት ልምድ', certs: 'ሰርተፊኬቶች', gpa: 'ውጤት (GPA)፣ BSc IT' },
     eduTitle: 'ትምህርት',
     eduDegree: 'የመጀመሪያ ዲግሪ በኢንፎርሜሽን ቴክኖሎጂ',

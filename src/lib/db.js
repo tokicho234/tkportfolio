@@ -39,6 +39,9 @@ async function doInit() {
     sql`CREATE TABLE IF NOT EXISTS cert_images (
       cert_id text PRIMARY KEY, mime text NOT NULL, data bytea NOT NULL,
       version bigint NOT NULL, updated_at timestamptz NOT NULL DEFAULT now())`,
+    sql`CREATE TABLE IF NOT EXISTS cv_files (
+      id integer PRIMARY KEY CHECK (id = 1), data bytea NOT NULL,
+      version bigint NOT NULL, updated_at timestamptz NOT NULL DEFAULT now())`,
     sql`CREATE TABLE IF NOT EXISTS messages (
       id bigserial PRIMARY KEY, name text NOT NULL, email text NOT NULL, message text NOT NULL,
       created_at timestamptz NOT NULL DEFAULT now())`,
@@ -54,17 +57,19 @@ async function doInit() {
 
 export async function readAll() {
   const sql = getSql();
-  const [skills, projects, certs, settings] = await sql.transaction([
+  const [skills, projects, certs, settings, cv] = await sql.transaction([
     sql`SELECT id, name, category, level FROM skills ORDER BY pos`,
     sql`SELECT id, title, descr, tags FROM projects ORDER BY pos`,
     sql`SELECT c.id, c.title, c.issuer, c.issued, c.detail, i.version::text AS img
         FROM certs c LEFT JOIN cert_images i ON i.cert_id = c.id ORDER BY c.pos`,
     sql`SELECT key, value FROM settings WHERE key IN ('heroMode', 'photo')`,
+    sql`SELECT version::text AS v FROM cv_files WHERE id = 1`,
   ]);
   const s = Object.fromEntries(settings.map((r) => [r.key, r.value]));
   return {
     heroMode: s.heroMode === 'photo' ? 'photo' : '3d',
     photo: typeof s.photo === 'string' ? s.photo : '',
+    cvVersion: cv[0] ? Number(cv[0].v) : 0,
     skills,
     projects: projects.map((p) => ({ id: p.id, title: p.title, desc: p.descr, tags: p.tags })),
     certs: certs.map((c) => ({
@@ -120,4 +125,22 @@ export async function saveCertImage(id, mime, buffer) {
 
 export async function deleteCertImage(id) {
   await getSql()`DELETE FROM cert_images WHERE cert_id = ${id}`;
+}
+
+export async function getCv() {
+  const rows = await getSql()`SELECT encode(data, 'base64') AS b64 FROM cv_files WHERE id = 1`;
+  return rows[0] ? Buffer.from(rows[0].b64, 'base64') : null;
+}
+
+export async function saveCv(buffer) {
+  const rows = await getSql()`
+    INSERT INTO cv_files (id, data, version, updated_at)
+    VALUES (1, decode(${buffer.toString('base64')}, 'base64'), (extract(epoch from now()) * 1000)::bigint, now())
+    ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, version = EXCLUDED.version, updated_at = now()
+    RETURNING version::text AS version`;
+  return Number(rows[0].version);
+}
+
+export async function deleteCv() {
+  await getSql()`DELETE FROM cv_files WHERE id = 1`;
 }

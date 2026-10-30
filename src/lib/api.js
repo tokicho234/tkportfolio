@@ -31,5 +31,18 @@ export const api = {
     return body;
   },
   deleteCertImage: (id) => request(`/api/admin/cert-image?id=${encodeURIComponent(id)}`, { method: 'DELETE' }),
+  uploadCv: async (file) => {
+    const res = await fetch('/api/admin/cv', {
+      method: 'POST',
+      cache: 'no-store',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/pdf' },
+      body: file,
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw Object.assign(new Error(body.error || 'Upload failed'), { status: res.status });
+    return body;
+  },
+  deleteCv: () => request('/api/admin/cv', { method: 'DELETE' }),
   sendContact: (payload) => request('/api/contact', { method: 'POST', body: JSON.stringify(payload) }),
 };

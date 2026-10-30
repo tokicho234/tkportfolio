@@ -7,8 +7,8 @@ import { CATEGORIES } from '@/lib/data';
 import { api } from '@/lib/api';
 import { usePortfolio } from '@/context/PortfolioContext';
 
-const TABS = ['skills', 'projects', 'certs', 'messages', 'display'];
-const TAB_LABEL = { skills: 'Skills', projects: 'Projects', certs: 'Certificates', messages: 'Messages', display: 'Display' };
+const TABS = ['skills', 'projects', 'certs', 'cv', 'messages', 'display'];
+const TAB_LABEL = { skills: 'Skills', projects: 'Projects', certs: 'Certificates', cv: 'CV', messages: 'Messages', display: 'Display' };
 
 const field = 'input';
 const iconBtn = 'grid h-9 w-9 shrink-0 place-items-center rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/10';
@@ -359,6 +359,75 @@ function Display() {
   );
 }
 
+function Cv() {
+  const { data, setCvVersion } = usePortfolio();
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [error, setError] = useState('');
+  const href = data.cvVersion ? `/api/cv?v=${data.cvVersion}` : '/Teketay_Addis_CV.pdf';
+
+  async function onFile(e) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    setMsg('');
+    setError('');
+    if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) return setError('Please choose a PDF file.');
+    if (file.size > 4 * 1024 * 1024) return setError('That PDF is larger than 4 MB. Compress it and try again.');
+    setBusy(true);
+    try {
+      const { version } = await api.uploadCv(file);
+      setCvVersion(version);
+      setMsg('CV uploaded. The Download CV button now serves this file.');
+    } catch (err) {
+      setError(err.message || 'Upload failed');
+    }
+    setBusy(false);
+  }
+
+  async function onRemove() {
+    if (!window.confirm('Remove the uploaded CV and go back to the default file?')) return;
+    setMsg('');
+    setError('');
+    setBusy(true);
+    try {
+      await api.deleteCv();
+      setCvVersion(0);
+      setMsg('Uploaded CV removed. The default file is used again.');
+    } catch (err) {
+      setError(err.message || 'Could not remove the CV');
+    }
+    setBusy(false);
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="rounded-2xl border border-slate-200 p-4 dark:border-white/10">
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">
+          {data.cvVersion ? 'Using your uploaded CV' : 'Using the default CV file'}
+        </p>
+        <p className="mt-1 text-sm text-slate-500">
+          {data.cvVersion ? `Uploaded ${new Date(data.cvVersion).toLocaleString()}.` : 'Upload a PDF to replace it. No redeploy needed.'}
+        </p>
+        <a href={href} target="_blank" rel="noreferrer" className="mt-2 inline-block text-sm text-sky-700 hover:underline dark:text-neon-cyan">
+          Open current CV
+        </a>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <label className={`btn btn-primary cursor-pointer ${busy ? 'pointer-events-none opacity-60' : ''}`}>
+          <Upload size={15} /> {busy ? 'Working...' : data.cvVersion ? 'Replace CV' : 'Upload CV'}
+          <input type="file" accept="application/pdf,.pdf" className="sr-only" onChange={onFile} disabled={busy} />
+        </label>
+        {data.cvVersion ? <button className="btn btn-ghost" onClick={onRemove} disabled={busy}>Remove uploaded CV</button> : null}
+      </div>
+      <p className="text-xs text-slate-500">PDF only, up to 4 MB.</p>
+      {msg && <p role="status" className="text-sm text-slate-600 dark:text-slate-400">{msg}</p>}
+      {error && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+    </div>
+  );
+}
+
 function SaveStatus() {
   const { saveState, saveError, loadFailed } = usePortfolio();
   if (loadFailed) return <span className="text-xs text-red-600 dark:text-red-400">Could not load from database. Saving is disabled.</span>;
@@ -445,6 +514,7 @@ export default function AdminModal() {
                   {tab === 'skills' && <Skills />}
                   {tab === 'projects' && <Projects />}
                   {tab === 'certs' && <Certs />}
+                  {tab === 'cv' && <Cv />}
                   {tab === 'messages' && <Messages />}
                   {tab === 'display' && <Display />}
                 </div>

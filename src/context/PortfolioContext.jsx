@@ -112,11 +112,13 @@ export function PortfolioProvider({ children }) {
   const setPhoto = useCallback((photo) => mutate((d) => ({ ...d, photo })), [mutate]);
   // Certificate images live in their own table, so keep each cert's image when content is reset or imported.
   const keepImages = (d, certs) => certs.map((c) => ({ ...c, imageVersion: d.certs.find((x) => x.id === c.id)?.imageVersion || 0 }));
-  const resetAll = useCallback(() => mutate((d) => ({ ...DEFAULT_DATA, certs: keepImages(d, DEFAULT_DATA.certs) })), [mutate]);
+  const resetAll = useCallback(() => mutate((d) => ({ ...DEFAULT_DATA, cvVersion: d.cvVersion, certs: keepImages(d, DEFAULT_DATA.certs) })), [mutate]);
   const importData = useCallback(
-    (json) => mutate((d) => ({ ...DEFAULT_DATA, ...json, certs: keepImages(d, Array.isArray(json.certs) ? json.certs : DEFAULT_DATA.certs) })),
+    (json) => mutate((d) => ({ ...DEFAULT_DATA, ...json, cvVersion: d.cvVersion, certs: keepImages(d, Array.isArray(json.certs) ? json.certs : DEFAULT_DATA.certs) })),
     [mutate]
   );
+  // The CV file is saved by its own endpoint, so this updates the screen without triggering a content save.
+  const setCvVersion = useCallback((cvVersion) => setData((d) => ({ ...d, cvVersion })), []);
   // Image changes are saved by their own endpoint, so this updates the screen without triggering a content save.
   const setCertImage = useCallback(
     (id, imageVersion) => setData((d) => ({ ...d, certs: d.certs.map((c) => (c.id === id ? { ...c, imageVersion } : c)) })),
@@ -127,9 +129,9 @@ export function PortfolioProvider({ children }) {
     () => ({
       lang, theme, data, t, tr, dataReady, loadFailed, isAdmin, saveState, saveError, adminOpen,
       setAdminOpen, toggleLang, toggleTheme, login, logout,
-      addItem, updateItem, removeItem, setHeroMode, setPhoto, resetAll, importData, setCertImage,
+      addItem, updateItem, removeItem, setHeroMode, setPhoto, resetAll, importData, setCertImage, setCvVersion,
     }),
-    [lang, theme, data, t, tr, dataReady, loadFailed, isAdmin, saveState, saveError, adminOpen, toggleLang, toggleTheme, login, logout, addItem, updateItem, removeItem, setHeroMode, setPhoto, resetAll, importData, setCertImage]
+    [lang, theme, data, t, tr, dataReady, loadFailed, isAdmin, saveState, saveError, adminOpen, toggleLang, toggleTheme, login, logout, addItem, updateItem, removeItem, setHeroMode, setPhoto, resetAll, importData, setCertImage, setCvVersion]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

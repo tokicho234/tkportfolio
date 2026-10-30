@@ -17,6 +17,7 @@ Import the repo and add the same three environment variables. Redeploy after cha
 - `PUT /api/portfolio` saves them. It requires the admin session cookie (HttpOnly, SameSite=Strict, signed, 12 hours). The Admin Portal autosaves 0.7s after each edit.
 - `POST /api/admin/login` checks `ADMIN_PASSCODE` on the server, with 8 attempts per IP per 15 minutes.
 - Certificate images are stored in their own table (`cert_images`) and served from `GET /api/cert-image/:id` with long-lived caching. Upload them in Admin Portal > Certificates (resized to 1600px in the browser).
+- The CV is served from `GET /api/cv` once uploaded in Admin Portal > CV (PDF, 4 MB max). Until then the Download CV button uses `public/Teketay_Addis_CV.pdf`.
 - `POST /api/contact` stores messages (honeypot field, 5 per email per hour, 60 total per hour). Read and delete them in Admin Portal > Messages.
 - Language and theme stay in each visitor's browser (localStorage).
 

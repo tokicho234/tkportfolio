@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS skills (id text PRIMARY KEY, name text NOT NULL, cate
 CREATE TABLE IF NOT EXISTS projects (id text PRIMARY KEY, title jsonb NOT NULL, descr jsonb NOT NULL DEFAULT '""', tags text NOT NULL DEFAULT '', pos integer NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS certs (id text PRIMARY KEY, title text NOT NULL, issuer text NOT NULL DEFAULT '', issued text NOT NULL DEFAULT '', detail jsonb NOT NULL DEFAULT '""', pos integer NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS cert_images (cert_id text PRIMARY KEY, mime text NOT NULL, data bytea NOT NULL, version bigint NOT NULL, updated_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS cv_files (id integer PRIMARY KEY CHECK (id = 1), data bytea NOT NULL, version bigint NOT NULL, updated_at timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS messages (id bigserial PRIMARY KEY, name text NOT NULL, email text NOT NULL, message text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
 CREATE TABLE IF NOT EXISTS login_attempts (ip text NOT NULL, at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS login_attempts_at ON login_attempts (at);
